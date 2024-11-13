@@ -1,6 +1,16 @@
 // firebaseauth.ts
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification, User } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification, User, signInWithPhoneNumber, RecaptchaVerifier } from '@firebase/auth';
 import { auth } from './firebaseconfig';
+
+
+
+export const authWithPhoneNumber = async (phoneNumber: string, recaptchaVerifier: RecaptchaVerifier) => {
+  try {
+    await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+  } catch (error) {
+    throw error
+  }
+}
 
 export const registerWithEmailPassword = async (email: string, password: string) => {
   try {

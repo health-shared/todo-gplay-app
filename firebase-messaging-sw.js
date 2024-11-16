@@ -1,7 +1,5 @@
 import { initializeApp } from "@firebase/app";
-import { getAuth } from "@firebase/auth";
-import { getFirestore } from "@firebase/firestore";
-import { getMessaging } from "@firebase/messaging";
+import { getMessaging, onBackgroundMessage } from "@firebase/messaging/sw";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,7 +11,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const firestore = getFirestore(app); // Initialize Firestore
-export const messaging = () => getMessaging(app);
-export { auth, firestore }; // Export Firestore
+
+const messaging = getMessaging(app);
+
+onBackgroundMessage(messaging, (payload) => {
+  if (payload.notification) return;
+  const notificationTitle = payload.data.title;
+  const notificationOptions = {
+    body: payload.data.body,
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});

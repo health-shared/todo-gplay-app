@@ -1,7 +1,7 @@
 // components/header.tsx
-import Link from 'next/link';
-import { useAuth } from '../context/AuthContext';
-import { ROUTES } from '../constants/routes';
+import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
+import { ROUTES } from "../constants/routes";
 
 const Header = () => {
   const { user, logout } = useAuth();
